@@ -27,7 +27,7 @@ export default function Vans() {
     <div key={van.id} className="van-tile">
       <Link
         to={van.id}
-        state={{ search: `?${searchParams.toString()}` }} //keeps the history state in the URL
+        state={{ search: `?${searchParams.toString()}`, type: typeFilter }} //keeps the history state in the URL
         aria-label={`View details for ${van.name}, priced at $${van.price} per day`}
       >
         <img src={van.imageUrl} alt={`Image of ${van.name}`} />

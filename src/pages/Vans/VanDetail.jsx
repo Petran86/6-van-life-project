@@ -14,11 +14,12 @@ export default function VanDetail() {
 
   const search = location.state?.search || ""; //optional chaining (if state exists look for search)
   //we can then modify the "to" prop in link so it can return to the previous page with the searchParams intact
+  const type = location.state?.type || "all";
 
   return (
     <div className="van-detail-container">
       <Link to={`..${search}`} relative="path" className="back-button">
-        &larr;<span>Back to all vans</span>
+        &larr;<span>Back to {type} vans</span>
       </Link>
       {van ? (
         <div className="van-detail">
