@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router";
+import { Link, useParams, useLocation } from "react-router";
 
 export default function VanDetail() {
   const params = useParams();
+  const location = useLocation();
   const [van, setVan] = useState(null);
 
   useEffect(() => {
@@ -11,8 +12,14 @@ export default function VanDetail() {
       .then((data) => setVan(data.vans));
   }, [params.id]);
 
+  const search = location.state?.search || ""; //optional chaining (if state exists look for search)
+  //we can then modify the "to" prop in link so it can return to the previous page with the searchParams intact
+
   return (
     <div className="van-detail-container">
+      <Link to={`..${search}`} relative="path" className="back-button">
+        &larr;<span>Back to all vans</span>
+      </Link>
       {van ? (
         <div className="van-detail">
           <img src={van.imageUrl} alt={`Image of ${van.name}`} />
