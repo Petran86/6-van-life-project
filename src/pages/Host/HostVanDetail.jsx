@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, Link, NavLink, Outlet } from "react-router";
-import { getHostVans } from "../../api";
+import { getVan } from "../../api";
 
 export default function HostVanDetail() {
   const [van, setVan] = useState(null);
@@ -18,7 +18,8 @@ export default function HostVanDetail() {
     async function loadVans() {
       setLoading(true);
       try {
-        const data = getHostVans(id);
+        const data = getVan(id);
+        console.log(data);
         setVan(data);
       } catch (err) {
         setError(err);
@@ -45,7 +46,7 @@ export default function HostVanDetail() {
         </Link>
         <div className="host-van-detail-layout-container">
           <div className="host-van-detail">
-            <img src={van.imageUrl} />
+            <img src={van.imageUrl} alt={`Photo of ${van.name}`} />
             <div className="host-van-detail-info-text">
               <i className={`van-type van-type-${van.type}`}>{van.type}</i>
               <h3>{van.name}</h3>
