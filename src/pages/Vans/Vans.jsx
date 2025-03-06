@@ -1,21 +1,31 @@
 import { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router";
+import { getVans } from "../../api";
 
 export default function Vans() {
   /** SEARCH PARAMS VARIABLES */
   const [searchParams, setSearchParams] = useSearchParams();
   /** STATE VARIABLES */
   const [vans, setVans] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const typeFilter = searchParams.get("type");
 
   /** GET DATA FROM API */
   useEffect(() => {
-    fetch("/api/vans")
-      .then((res) => res.json())
-      .then((data) => {
-        setVans(data.vans);
-      });
+    async function loadVans() {
+      setLoading(true);
+      try {
+        const data = await getVans();
+        setVans(data);
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadVans();
   }, []);
 
   const displayedVans = typeFilter
@@ -27,7 +37,7 @@ export default function Vans() {
     <div key={van.id} className="van-tile">
       <Link
         to={van.id}
-        state={{ search: `?${searchParams.toString()}`, type: typeFilter }} //keeps the history state in the URL
+        state={{ search: `?${searchParams.toString()}`, type: typeFilter }} //keeps the history state in the URL (link state)
         aria-label={`View details for ${van.name}, priced at $${van.price} per day`}
       >
         <img src={van.imageUrl} alt={`Image of ${van.name}`} />
@@ -42,6 +52,14 @@ export default function Vans() {
       </Link>
     </div>
   ));
+
+  if (loading) {
+    return <h1 aria-live="polite">Loading...</h1>;
+  }
+
+  if (error) {
+    return <h1 aria-live="assertive">There was an error: {error.message}</h1>;
+  }
 
   return (
     <div className="van-list-container">
