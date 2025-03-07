@@ -44,7 +44,22 @@ export async function getHostVans() {
     return vans
 }
 
+export async function loginUser(creds) {
+    const res = await fetch("/api/login",
+        { method: "post", body: JSON.stringify(creds) }
+    )
+    const data = await res.json()
 
+    if (!res.ok) {
+        throw {
+            message: data.message,
+            statusText: res.statusText,
+            status: res.status
+        }
+    }
+
+    return data
+}
 
 /*********** FETCHING FUNCTIONS FOR MIRAGE.JS DATABASE ********/
 // A function whose only purpose is to delay execution
@@ -82,20 +97,3 @@ export async function getHostVans() {
 //     const data = await res.json()
 //     return data.vans
 // }
-
-export async function loginUser(creds) {
-    const res = await fetch("/api/login",
-        { method: "post", body: JSON.stringify(creds) }
-    )
-    const data = await res.json()
-
-    if (!res.ok) {
-        throw {
-            message: data.message,
-            statusText: res.statusText,
-            status: res.status
-        }
-    }
-
-    return data
-}
