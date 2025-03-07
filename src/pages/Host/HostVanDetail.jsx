@@ -39,11 +39,11 @@ export default function HostVanDetail() {
   }
 
   return (
-    <div>
-      <section>
-        <Link to=".." relative="path" className="back-button">
-          &larr;<span>Back to all vans</span>
-        </Link>
+    <section>
+      <Link to=".." relative="path" className="back-button">
+        &larr;<span>Back to all vans</span>
+      </Link>
+      {van && (
         <div className="host-van-detail-layout-container">
           <div className="host-van-detail">
             <img src={van.imageUrl} alt={`Photo of ${van.name}`} />
@@ -76,7 +76,7 @@ export default function HostVanDetail() {
           </nav>
           <Outlet context={{ van }} />
         </div>
-      </section>
-    </div>
+      )}
+    </section>
   );
 }
