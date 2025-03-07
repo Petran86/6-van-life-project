@@ -13,7 +13,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app)
 
-// Refactoring the fetching functions below
+// Refactoring the fetching functions below with Firestore
 const vansCollectionRef = collection(db, "vans")
 
 export async function getVans() {
