@@ -18,7 +18,7 @@ export default function HostVanDetail() {
     async function loadVans() {
       setLoading(true);
       try {
-        const data = getVan(id);
+        const data = await getVan(id);
         console.log(data);
         setVan(data);
       } catch (err) {
